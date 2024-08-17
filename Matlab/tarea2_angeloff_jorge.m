@@ -1,11 +1,13 @@
-clear all; close all; clc;
+
 
 % pkg load symbolic
 % pkg load control
 
-s = tf ('s');
 
-%Sistema 1: Sistema a lazo cerrado con realimentación tacométrica
+%% Sistema 1: Sistema a lazo cerrado con realimentación tacométrica
+clear all; close all; clc;
+
+s = tf ('s');
 
 % kp = 31; kd = 16;
 % 
@@ -22,7 +24,9 @@ s = tf ('s');
 % step ( ft_lc_ext );
 
 
-% Sistema 2: Sistema de control en cascada
+%%  Sistema 2: Sistema de control en cascada
+clear all; close all; clc;
+
 
 % pi=(s+0.1)/s;
 % 
@@ -42,7 +46,8 @@ s = tf ('s');
 % 
 % step(ft_lc_ext);
 
-% Sistema 3: Sistema a lazo cerrado con controlador PID
+%% Sistema 3: Sistema a lazo cerrado con controlador PID
+clear all; close all; clc;
 
 % syms kp ti td wn psita s
 % 
@@ -60,7 +65,7 @@ s = tf ('s');
 % 
 % pretty(ft_lc)
 
-% Sistema 4: Sistema a lazo cerrado con controlador PID
+%% Sistema 4: Sistema a lazo cerrado con controlador PID
 
 % syms k  t s kp ti td 
 % 
@@ -78,7 +83,7 @@ s = tf ('s');
 % 
 % pretty(ft_lc)
 
-% % Ejercicio 3
+%% Ejercicio 3
 % % 3.1. Determinar las cuatro funciones de transferencia que modelan el sistema.
 % 
 % s=tf('s');
@@ -142,7 +147,7 @@ s = tf ('s');
 % %velocidad del rotor.
 % 
 % 
-% %Ejercicio 4
+%% Ejercicio 4
 % % 4.1. Determinar las funciones de transferencia W ( s ) / Wr ( s ) y W ( s ) / TL ( s ) .
 % 
 % Kp=20;
@@ -175,3 +180,116 @@ s = tf ('s');
 %%Puede verse que ajustar la variable Kp=20 nos acercamos a los 300r/seg
 %%que tenemos de referencia 
 
+%% Diagramas de Flujo de Señal y Álgebra de Mason
+% 6. Demostrar que los siguientes sistemas son equivalentes.
+
+close all; clear all; clc
+% Definición de las funciones.
+syms G H 
+
+P=G; %caminos directos: 1
+L1=-G*H; %lazos: 1
+delta=1-L1; %Δ=1−(suma de todas las ganancias de bucles individuales)+(suma de las ganancias de combinaciones de dos bucles disjuntos)−(suma de las ganancias de combinaciones de tres bucles disjuntos)+…
+
+delta1=1;
+
+M=(P*delta1)/delta
+
+%% Sistema 2.
+P=G;
+L1=-G*H;
+delta=1-L1;
+delt1=1;
+M=(P*delta1)/delta
+
+%% 7. Demostrar que los siguientes sistemas no son equivalentes.
+clear all; close all; %clc;
+
+% Sistema 1
+syms G1 G2 G3 H1 H2 H3
+
+P=G1*G2*G3;
+L1=-G1*H1;
+L2=-G2*H2;
+L3=-G3*H3;
+
+delta=1-(L1+L2+L3)+((L1*L2)+(L1*L3)+(L2*L3))-(L1*L2*L3);
+delta1= 1;
+
+M=(P*delta1)/delta;
+
+M=simplify(M)
+
+%% Sistema 2
+
+P=G1*G2*G3;
+L1=-G1*H1;
+L2=-G2*H2;
+L3=-G3*H3;
+
+delta=1-(L1+L2+L3)+(L1*L3);
+delta1=1;
+
+
+M=(P*delta1)/delta;
+
+M=simplify(M)
+%Los sistemas no son equivalentes por el calculo de delta, estos son
+%distintos
+
+%% 10. Aplicar la Regla de Mason para encontrar las siguientes Funciones de Transferencia.
+%Sistema 1
+%Y5/Y1
+syms G1 G2 G3 G4 H1 H2 H3
+
+P1=G1*G2*G3;
+P2=G4*G3;
+L1=-G1*H1;
+L2=-G3*H2;
+L3=-G1*G2*G3*H3;
+L4=-G4*G3*H3;
+
+delta=1-(L1+L2+L3+L4)+(L1*L2);
+delta1=1;
+delta2=1;
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M=simplify(M);
+pretty(M)
+
+%% Y4/Y1
+syms G1 G2 G3 G4 H1 H2 H3
+
+P1=G1*G2;
+P2=G4;
+L1=-G1*H1;
+L2=-G3*H2;
+
+
+delta=1-(L1+L2)+(L1*L2);
+delta1=1;
+delta2=1;
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M=simplify(M);
+pretty(M)
+
+%% Y2/Y1
+
+syms G1 G2 G3 G4 H1 H2 H3
+
+P1=1;
+L1=-G1*H1;
+L2=-G3*H2;
+L3=-G1*G2*G3*H3;
+L4=-G4*G3*H3;
+
+delta=1-(L1+L2+L4)+(L1*L2);
+delta1=1;
+delta2=1;
+
+M=((P1*delta1))/delta;
+M=simplify(M);
+
+factor(M);
+pretty(M)
