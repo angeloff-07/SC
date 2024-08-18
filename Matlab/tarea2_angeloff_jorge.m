@@ -262,9 +262,11 @@ syms G1 G2 G3 G4 H1 H2 H3
 
 P1=G1*G2;
 P2=G4;
+
 L1=-G1*H1;
 L2=-G3*H2;
-
+L3=-G1*G2*G3*H3;
+L4=-G4*G3*H3;
 
 delta=1-(L1+L2)+(L1*L2);
 delta1=1;
@@ -274,22 +276,212 @@ M=((P1*delta1)+(P2*delta2))/delta;
 M=simplify(M);
 pretty(M)
 
-%% Y2/Y1
 
+%% Y2/Y1
 syms G1 G2 G3 G4 H1 H2 H3
 
 P1=1;
+
 L1=-G1*H1;
 L2=-G3*H2;
 L3=-G1*G2*G3*H3;
 L4=-G4*G3*H3;
 
-delta=1-(L1+L2+L4)+(L1*L2);
+delta=1-(L1+L2)+(L1*L2);
+delta1=1-(L2);
+
+M=(P1*delta1)/delta;
+M=simplify(M);
+pretty(M)
+
+%% Sistema 2  
+
+%Y5/Y1
+syms G1 G2 G3 G4 H1 H2 H3 H4
+
+P1=G1*G2*G3;
+P2=G4*G3;
+L1=-G1*H1;
+L2=-G3*H2;
+L3=-G1*G2*G3*H3;
+L4=-G4*G3*H3;
+L5=-H4;
+
+delta=1-(L1+L2+L3+L4+L5)+(L1*L2+L1*L5);
 delta1=1;
 delta2=1;
 
-M=((P1*delta1))/delta;
+M=((P1*delta1)+(P2*delta2))/delta;
 M=simplify(M);
-
-factor(M);
 pretty(M)
+
+%% Y4/Y1
+syms G1 G2 G3 G4 H1 H2 H3 H4
+
+P1=G1*G2;
+P2=G4;
+
+L1=-G1*H1;
+L2=-G3*H2;
+L3=-G1*G2*G3*H3;
+L4=-G4*G3*H3;
+L5=-H4;
+
+delta=1-(L1+L2+L3+L4+L5)+(L1*L2+L1*L5);
+delta1=1-L5;
+delta2=1-L5;
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M=simplify(M);
+pretty(M)
+
+%% Y2/Y1
+syms G1 G2 G3 G4 H1 H2 H3 H4
+
+P1=1;
+
+L1=-G1*H1;
+L2=-G3*H2;
+L3=-G1*G2*G3*H3;
+L4=-G4*G3*H3;
+L5=-H4;
+
+delta=1-(L1+L2+L3+L4+L5)+(L1*L2+L1*L5);
+
+delta1=1-(L2+L5);
+
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M=simplify(M);
+pretty(M)
+
+%% Sistema 3
+% Y5/Y1
+syms s
+
+P1=10*(1/s)*(1/s);
+P2=10*5;
+
+L1=-5/s;
+L2=-10;
+L3=-(1/s)*(1/s);
+L4=-5;
+L5=-5*(10*s)*(-5);
+
+delta=1-(L1+L2+L3+L4+L5);
+
+delta1=1;
+delta2=1;
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M=simplify(M);
+pretty(M)
+
+%% Y4/Y1
+
+syms s
+
+P1=10*(1/s)*(1/s);
+P2=10*5;
+
+L1=-5/s;
+L2=-10;
+L3=-(1/s)*(1/s);
+L4=-5;
+L5=-5*(10*s)*(-5);
+
+delta=1-(L1+L2+L3+L4+L5);
+
+delta1=1;
+delta2=1;
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M=simplify(M);
+pretty(M)
+
+%% Y2/Y1
+
+syms s
+
+P1=10;
+
+L1=-5/s;
+L2=-10;
+L3=-(1/s)*(1/s);
+L4=-5;
+L5=-5*(10*s)*(-5);
+
+delta=1-(L1+L2+L3+L4+L5);
+
+delta1=1-L2;
+
+M=(P1*delta1)/delta;
+M=simplify(M);
+pretty(M)
+
+%% Sistema 5
+% Y5/Y1
+syms s;
+P1=(1/s)*(1/s)*30;
+P2=5*(1/s);
+
+L1=-(1/s);
+L2=-30;
+L3=-(1/s)*(1/s)*30;
+L4=-5*(1/s);
+L5=-10;
+
+delta=1-(L1+L2+L3+L4+L5)+((L1*L5)+(L1*L4)*(L2*L5)+(L3*L5));
+
+delta1=1-L5;
+delta2=1-L1;
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M= simplify(M);
+
+pretty(M)
+
+%% Y4/Y1
+syms s;
+P1=-(1/s)*(1/s);
+P2=5*(1/s);
+
+L1=-(1/s);
+L2=-30;
+L3=-(1/s)*(1/s)*30;
+L4=-5*(1/s);
+L5=-10;
+
+delta=1-(L1+L2+L3+L4+L5)+((L1*L5)+(L1*L4)*(L2*L5)+(L3*L5));
+
+delta1=1-L5;
+delta2=1            ;
+
+M=((P1*delta1)+(P2*delta2))/delta;
+M= simplify(M);
+
+pretty(M)
+
+%% Y2/Y1
+
+syms s;
+P1=1;
+
+
+L1=-(1/s);
+L2=-30;
+L3=-(1/s)*(1/s)*30;
+L4=-5*(1/s);
+L5=-10;
+
+delta=1-(L1+L2+L3+L4+L5)+((L1*L5)+(L1*L4)*(L2*L5)+(L3*L5));
+
+delta1=1-(L1+L2+L5);
+
+
+M=((P1*delta1))/delta;
+M= simplify(M);
+
+pretty(M)
+
+
