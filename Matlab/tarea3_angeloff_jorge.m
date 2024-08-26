@@ -46,3 +46,26 @@ W_V=3000/(s^2+156.25*s+1837.5);
 step(W_V,1)
 
 % pzmap(W_V);
+
+%% Ejercicio 4
+syms  XA XS W s
+
+
+
+MA = 500; % Masa del automóvil
+MS = 50;  % Masa de la suspensión
+BA = 80;  % Amortiguador
+KR = 10;  % Resorte entre automóvil y suspensión
+KC = 50;  % Resorte de la cubierta
+
+eq1 = MA * s^2 * XA == BA * (XS - XA) + KR * (XS - XA);
+eq2 = MS * s^2 * XS == BA * (XA - XS) + KR * (XA - XS) + KC * (W - XS);
+
+% Resolver el sistema para XA y XS
+[XA_sol, XS_sol] = solve([eq1, eq2], [XA, XS]);
+
+% Calcular la función de transferencia Xa/W
+Xa_W = simplify(XA_sol / W)
+pretty(Xa_W)
+
+
