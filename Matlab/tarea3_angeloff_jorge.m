@@ -248,3 +248,43 @@ disp('theta_v = ')
 pretty(theta_v)
 
 %%
+close all; clear all; clc
+
+syms e s i1 i2 r1 r2 l1 l2 c
+
+eq1 = e == i1 * ( r1 + s * l1 + (1/(s*c))) + i2 * (-1/(s*c));
+eq2 = 0 == i1 * ( -1/(s*c) ) + i2 * ( r2 + s * l2 + 1/(s*c));
+
+[i1_sol, i2_sol] = solve([eq1, eq2],[i1, i2]);
+
+% i1_sol=simplify(i1_sol);
+% i1_sol=collect(i1_sol,s);
+% disp('i1_sol =')
+% pretty(i1_sol)
+% 
+% i2_sol=simplify(i2_sol);
+% i2_sol=collect(i2_sol,s);
+% disp('i2_sol =')
+% pretty(i2_sol)
+
+er_e=(i2_sol*r2)/e;
+
+er_e=simplify(er_e);
+er_e=collect(er_e,s);
+disp('er_e =')
+pretty(er_e)
+%%
+close all; clear all; clc
+
+S = tf('s');
+R1 = 100;
+R2 = 250;
+C = 1e-6;
+L1 = 100e-3;
+L2 = 100e-3;
+
+G= R2/((S^3)*C*L1*L2 + (S^2)*((C*L1*R2)+(C*L2*R1)) + S*(L1 + L2 +C*R1*R2) + (R1+R2));
+G
+
+step(G, 10)
+%%
