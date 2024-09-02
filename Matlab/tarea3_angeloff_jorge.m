@@ -288,3 +288,71 @@ G
 
 step(G, 10)
 %%
+% Ejercicio 11
+close all; clear all; clc
+
+syms s i k1 k2 r
+
+theta_i = 2/((s^3)+5*(s^2)+4*s);
+disp('theta_i = ')
+pretty(theta_i)
+
+
+eq1 = i*(1 + (1/s) + ((2*k1+2*k2*s)/((s^3)+5*(s^2)+4*s))) == r;
+[i_sol] = solve([eq1],[i]);
+i_sol=simplify(i_sol);
+i_sol=collect(i_sol, s);
+
+i_r = i_sol/r;
+i_r=simplify(i_r);
+i_r=collect(i_r, s);
+disp('i_r = ')
+pretty(i_r)
+
+theta_r = theta_i * i_r;
+
+theta_r=simplify(theta_r);
+theta_r=collect(theta_r);
+disp('theta_r = ')
+pretty(theta_r)
+
+%%
+close all; clear all; clc
+
+syms s k1 k2 
+
+G1= (s/(s+1));
+G2= 2/((s^3)+(5*(s^2))+(4*s));
+
+G_la=G1*G2;
+
+G_lc1=G_la/(1+(G_la*(k2*s)));
+
+G=G_lc1/(1+(G_lc1*k1));
+G=simplify(G);
+G=collect(G,s);
+disp('G = ')
+pretty(G)
+
+%% Ejercicio 12
+
+close all; clear all; clc
+
+syms s jm theta_m bm tm k jl theta_l
+
+eq1 = jm*(s^2)*theta_m + bm*s*theta_m + k*(theta_m-theta_l) == tm;
+eq2 = jl*(s^2)*theta_l == k*(theta_m-theta_l);
+
+[om, ol] = solve([eq1, eq2],[theta_m, theta_l]);
+
+om_tm = om/tm;
+om_tm=simplify(om_tm);
+om_tm=collect(om_tm,s);
+disp('om_tm = ')
+pretty(om_tm)
+
+ol_tm = ol/tm;
+ol_tm=simplify(ol_tm);
+ol_tm=collect(ol_tm,s);
+disp('ol_tm = ')
+pretty(ol_tm)
