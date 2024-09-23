@@ -1,22 +1,22 @@
 % Unidad N° 3 
 %% Ejercicio 1
 close all; clear all; clc
-% 
-% s=tf('s');
-% % 
-% Ys_Xs=(5*(s+1))/((5*s^2)+(2*s)+3);
-% 
-% polos=pole(Ys_Xs);
 
-% if real(polos)<0
-%     disp('Sistema estable')
+s=tf('s');
 % 
-% else
-%     disp('Sistema inestable')
-% end
+Ys_Xs=(5*(s+1))/((5*s^2)+(2*s)+3);
 
-% Ys_Xs=roots([5 2 3]);
-% step(Ys_Xs,50)
+polos=pole(Ys_Xs);
+
+if real(polos)<0
+    disp('Sistema estable')
+
+else
+    disp('Sistema inestable')
+end
+
+Ys_Xs=roots([5 2 3]);
+step(Ys_Xs,50)
 
 %% Ejercicio 2
 % Aplicando TVF siendo E(s)=10V/s
