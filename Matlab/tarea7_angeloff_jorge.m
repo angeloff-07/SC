@@ -122,6 +122,10 @@ N=[1 11 10 110]
 p=roots(N)
 %Estable
 
+
+
+
+
 %%
 close all; clear all; clc
 syms k
@@ -146,12 +150,92 @@ G=1/(s+1)^3;
 FdTLC=k*G/(1+k*G);
 FdTLC=collect(simplify(FdTLC),'s')
 
-G=zpk([],[-1 -1 -1],1)
-step(feedback(7*G,1),feedback(8*G,1),feedback(9*G,1),100);grid
-legend('k=7','k=8','k=9','location','best')
+% G=zpk([],[-1 -1 -1],1)
+% step(feedback(7*G,1),feedback(8*G,1),feedback(9*G,1),100);grid
+% legend('k=7','k=8','k=9','location','best')
 
 %Puede verse que con k=9 inestable y diverge, k=8 inestable y oscila, k=7
 %estable y converge
-%% 
+%% 16. Determinar la estabilidad relativa de los siguientes sistemas. Validar los resultados obtenidos.
+%Sistema 1
 
+ close all; clear all; clc
 
+ s=tf('s');
+
+ g1=10/(s^2 + 10)
+
+ rlocus(g1)
+
+%Sistema estable para cualquier ganancia k
+
+%% Sistema 2
+
+ close all; clear all; clc
+
+ s=tf('s');
+
+ g2=(10*s + 20)/(s^2 + 120*s + 10)
+
+ rlocus(g2)
+%Sistema estable para cualquier ganancia k
+
+%% Sistema 3
+
+ close all; clear all; clc
+
+ s=tf('s');
+
+ g3=(45)/(s^3 + 12*s^2 + 10*s + 45)
+
+ rlocus(g3)
+%Sistema inestable para cualquier ganancia k>1.6666, calculado con criterio
+%R-H y chequeado con LDR
+step(feedback(1.60*g3,1),1000)
+
+%% Sistema 4
+
+ close all; clear all; clc
+
+ s=tf('s');
+
+ g4=((s + 10)*(s+ 20))/((s +1)*(s + 5))
+
+ rlocus(g4)
+%Sistema estable para cualquier ganancia k
+
+%% Sistema 5
+
+ close all; clear all; clc
+
+ s=tf('s');
+
+ g5=((s + 10)*(s+ 20))/((s - 1)*(s + 5))
+
+ rlocus(g5)
+%Sistema inestable para cualquier ganancia k<0.025, calculado con criterio
+%R-H y chequeado con LDR
+step(feedback(0.02*g5,1),10)
+
+%% Sistema 6
+
+ close all; clear all; clc
+
+ s=tf('s');
+
+ g6_1=(1)/(s + 10);
+ g6_2=(s)/(s^2 + s + 1);
+ g6=g6_1*g6_2
+ rlocus(g6)
+%Sistema estable para cualquier ganancia k
+
+%% Ejemplo LDR, Técnica del lugar de raíces
+close all; clear all; clc
+G=tf([1 10],conv([1 5],[1 4 8]));
+figure
+% Lugar de raíces.
+rlocus(G); sgrid(0.707,[4 8 12])
+axis([-25 10 -25 25]);
+% ASINTOTAS
+h=line([0.5 0.5],[-25 25]) %interseccion de las asintotas y de donde hasta donde
+set(h,'LineStyle','-.')
