@@ -239,3 +239,190 @@ axis([-25 10 -25 25]);
 % ASINTOTAS
 h=line([0.5 0.5],[-25 25]) %interseccion de las asintotas y de donde hasta donde
 set(h,'LineStyle','-.')
+
+
+%% 17. Construya el diagrama del lugar de raíces para cada uno de los sistemas de control para los cuales se dan los polos y ceros de G(s) H (s) .
+%a
+rlocus(zpk([-8],[0],1))%;sgrid
+
+
+% Especificar el valor de amortiguamiento y frecuencia natural
+zeta = 0.707;    % Constante de amortiguamiento deseada
+ wn =2;   % Frecuencias naturales que desees mostrar (ajústalas según tu gráfico)
+
+% Añadir la grilla con el valor específico de zeta
+sgrid(zeta, wn);
+
+%% b
+
+rlocus(zpk([-4],[0 -2],1));sgrid(zeta, wn)
+
+%% k
+
+rlocus(zpk([-10],[-2+j -2-j],1));sgrid(zeta, wn)
+
+%% 18. La ecuación característica de distintos sistemas de control lineales se dan a continuación. Construir el lugar geométrico de las raíces para K ≥ 0. Verificar con Octave.
+% 1
+s=tf('s');
+g1=(s+5)/(s^3 + 3*s^2 + 2*s);
+rlocus(g1)
+
+%Sistema estable para cualquier ganancia 0<k<3, calculado con criterio
+%R-H y chequeado con LDR
+
+%%
+close all; clear all; clc
+G=zpk([-40],[-1 -5],100)
+H1=1;
+H2=tf(1,[1 20])
+rlocus(G*H1,G*H2); sgrid(0.707,[20 40 60 80])
+% K1=0.7;
+% K2=0.05;
+% step(feedback(K1*G,H1),feedback(K2*G,H2))
+
+%% 21
+close all; clear all; clc
+
+s=tf('s');
+zeta=0.707;
+wn=200;
+g4 = (100*(s+40))/((s+5)*(s^2+20*s+1700));
+rlocus(g4);
+sgrid(zeta,wn)
+
+%En este caso es imposible tener un zeta=0.7 sin controlador. la diagonal
+%correspondiente no toca el LDR del sistema
+
+%% 22
+close all; clear all; clc
+
+s=tf('s');
+zeta=0.66;
+wn=2;
+g = (1)/((s^3+4*s^2+5*s));
+rlocus(g);
+sgrid(zeta,wn)
+
+% 2.9<K<3.3
+
+%%
+% DISENO COMPENSADORES PROPORCIONALES
+% 23. Dados los sistemas de lazo cerrado caracterizados por las siguientes funciones de
+% transferencia de lazo abierto y realimentación unitaria, se pide:
+
+close all; clear all; clc
+s=tf('s');
+G1=20/((s+10)*(s+100))
+
+k = linspace(0, 1000, 5000);  % Incremento más fino, por ejemplo, 10,000 puntos
+rlocus(G1,k);
+
+
+sgrid(0.707,100)
+% % Primer caso: Respuesta críticamente amort.
+% 
+% s1=-55;
+% % A partir de la condición de módulo:
+% % |G(s)H(s)|=1/K
+% invK=abs(20/((s1+10)*(s1+100)));
+% K=1/invK
+% % % Verificación
+% FdTLC=feedback(K*G1,1)
+% pole(FdTLC)
+% % Simulación
+% step(FdTLC,0.4)
+
+
+% Segundo Caso: Respuesta con sobrep. 4%
+s2=-55+55i;
+invK2=abs(20/((s2+10)*(s2+100)));
+K2=1/invK2;
+% Verificación
+FdTLC2=feedback(K2*G1,1)
+pole(FdTLC2)
+step(FdTLC2,0.4)
+
+%% 
+close all; clear all; clc
+s=tf('s');
+G1=5/((s+10))
+
+k = linspace(0, 1000, 5000);  % Incremento más fino, por ejemplo, 10,000 puntos
+rlocus(G1,k);
+
+
+sgrid(0.707,100)
+%no hay interseccion con la diagonal de psita ni tampoco polo doble
+
+%%
+
+close all; clear all; clc
+s=tf('s');
+G1=(150*(s+10)*(s+20))/((s)*(s+5))
+
+% k = linspace(0, 1000, 5000);  % Incremento más fino, por ejemplo, 10,000 puntos
+rlocus(G1);
+
+%2 polos dobles posibles
+
+sgrid(0.707,100)
+% Primer caso: Respuesta críticamente amort.
+% 
+% s1=-12.9;
+% % A partir de la condición de módulo:
+% % |G(s)H(s)|=1/K
+% invK=abs((((150*(s1+10)*(s1+20))/((s1)*(s1+5)))));
+% K=1/invK
+% % % Verificación
+% FdTLC=feedback(K*G1,1)
+% pole(FdTLC)
+% % Simulación
+% step(FdTLC,0.4)
+
+
+s2=-3.1;
+% A partir de la condición de módulo:
+% |G(s)H(s)|=1/K
+invK=abs((((150*(s2+10)*(s2+20))/((s2)*(s2+5)))));
+K=1/invK
+% % Verificación
+FdTLC=feedback(K*G1,1)
+pole(FdTLC)
+% Simulación
+step(FdTLC)
+
+%%
+
+close all; clear all; clc
+s=tf('s');
+G1=(40*(25*s+1))/((5*s+1)*(40*s+1)*s)
+
+%k = linspace(0, 1000, 5000);  % Incremento más fino, por ejemplo, 10,000 puntos
+rlocus(G1);
+
+
+sgrid(0.707,100)
+% Primer caso: Respuesta críticamente amort.
+
+% s1=-0.0151;
+% % A partir de la condición de módulo:
+% % |G(s)H(s)|=1/K
+% invK=abs((40*(25*s1+1))/((5*s1+1)*(40*s1+1)*s1));
+% K=1/invK
+% % % Verificación
+% FdTLC=feedback(K*G1,1)
+% pole(FdTLC)
+% % Simulación
+% step(FdTLC)
+
+
+% Segundo Caso: Respuesta con sobrep. 4%
+s2=-0.0881+0.0925i;
+invK2=abs((40*(25*s2+1))/((5*s2+1)*(40*s2+1)*s2));
+K2=1/invK2;
+% Verificación
+FdTLC2=feedback(K2*G1,1)
+pole(FdTLC2)
+step(FdTLC2)
+
+%%
